@@ -18,7 +18,7 @@ jobs:
         with:
           go-version: '1.23.0'
 
-      - name: Run CLI tests
+      - name: Run unit tests
         run: go test ./... -cover
 
   style:
@@ -34,5 +34,5 @@ jobs:
         with:
           go-version: '1.23.0'
 
-      - name: Check for formatting issues
-        run: test -z "$(go fmt ./...)"
+      - name: Check formatting
+        run: test -z $(go fmt ./...)
