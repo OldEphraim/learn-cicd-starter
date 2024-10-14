@@ -21,14 +21,17 @@ jobs:
       - name: Build the app
         run: ./scripts/buildprod.sh
 
-      - name: Authenticate to Google Cloud
-        id: gcloud-auth
-        uses: google-github-actions/auth@v1
+      - id: auth
+        uses: google-github-actions/auth@v2
         with:
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: Set up Google Cloud CLI
-        run: gcloud auth activate-service-account --key-file=${{ secrets.GCP_CREDENTIALS }}
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Use gcloud CLI
+        run: gcloud info
 
       - name: Build and push Docker image
+
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-438621/notely-ar-repo/notely:latest .
